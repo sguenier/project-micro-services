@@ -8,6 +8,8 @@ async function bootstrap() {
     AppModule,
     grpcConfig,
   );
+  // console log the port
+  console.log('gRPC server running on port:', grpcConfig.options);
   await app.listen();
 }
 bootstrap();
