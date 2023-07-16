@@ -1,15 +1,12 @@
-// Filename : grpc.config.ts
 import { GrpcOptions, Transport } from '@nestjs/microservices';
-import { CAT_V1ALPHA_PACKAGE_NAME } from './stubs/cat/v1alpha/cat';
+import { PRODUCT_V1ALPHA_PACKAGE_NAME } from './stubs/product/v1alpha/product';
 import { join } from 'path';
 import { addReflectionToGrpcConfig } from 'nestjs-grpc-reflection';
 export const grpcConfig = addReflectionToGrpcConfig({
   transport: Transport.GRPC,
   options: {
-    url: '127.0.0.1:6001',
-    package: CAT_V1ALPHA_PACKAGE_NAME,
-    protoPath: join(__dirname, 'proto/cat/v1alpha/cat.proto'),
+    url: '127.0.0.1:6000',
+    package: PRODUCT_V1ALPHA_PACKAGE_NAME,
+    protoPath: join(__dirname, 'proto/product/v1alpha/product.proto'),
   },
 }) as GrpcOptions;
-
-// url: '12:6000',

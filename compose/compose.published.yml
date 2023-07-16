@@ -43,6 +43,27 @@ services:
       timeout: 10s
       retries: 5
 
+  product-api:
+    image: mohammaddocker/tm-task-api
+    environment:
+      - MONGO_URL=mongodb://root:task@mongo
+      - insecure=false
+      - TASK_CERT=/certs/task.pem
+      - TASK_KEY=/certs/task-key.pem
+      - ROOT_CA=/certs/rootCA.pem
+      - PORT=4000
+      - AUTH_API_URL=auth-api:4000
+      - JAEGER_URL=http://tracing:4318/v1/traces
+    ports:
+      - 4004:4000
+    volumes:
+      - ../local/certs:/certs
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
   auth-api:
     image: mohammaddocker/tm-auth-api
     environment:
@@ -67,6 +88,27 @@ services:
       timeout: 10s
       retries: 5
 
+  cat-api:
+    image: mohammaddocker/tm-task-api
+    environment:
+      - insecure=false
+      - CAT_CERT=/certs/cat.pem
+      - CAT_KEY=/certs/cat-key.pem
+      - PORT=4000
+      - USER_API_URL=user-api:4000
+      - AUTH_API_URL=auth-api:4000
+      - ROOT_CA=/certs/rootCA.pem
+      - JAEGER_URL=http://tracing:4318/v1/traces
+    ports:
+      - 4005:4000
+    volumes:
+      - ../local/certs:/certs
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
   front:
     image: mohammaddocker/tm-front
     environment:
@@ -77,6 +119,7 @@ services:
       - USER_API_URL=user-api:4000
       - AUTH_API_URL=auth-api:4000
       - TASK_API_URL=task-api:4000
+      - CAT_API_URL=cat-api:4000
       - ROOT_CA=/certs/rootCA.pem
       - JAEGER_URL=http://tracing:4318/v1/traces
     ports:

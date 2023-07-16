@@ -85,6 +85,33 @@ services:
       timeout: 10s
       retries: 5
 
+  cat-api:
+    image: gplane/pnpm:node18
+    working_dir: /app
+    volumes:
+      - ../cat-api:/app/
+      - ../local/certs:/certs
+      - /app/node_modules
+      - /app/.pnpm-store
+    environment:
+      - MONGO_URL=mongodb://root:cat@mongo
+      - insecure=false
+      - PORT=4000
+      - CAT_CERT=/certs/cat.pem
+      - CAT_KEY=/certs/cat-key.pem
+      - AUTH_API_URL=auth-api:4000
+      - ROOT_CA=/certs/rootCA.pem
+      - JAEGER_URL=http://tracing:14268/api/traces
+    ports:
+      - 4005:4000
+    stdin_open: true
+    command: start:dev
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:3000/health" ]
+      interval: 5s
+      timeout: 10s
+      retries: 5
+
 networks:
   default:
     external: true
