@@ -39,6 +39,11 @@ services:
     extends:
       file: ./compose/compose.published.yml
       service: cat-api
+      
+  product-api:
+    extends:
+      file: ./compose/compose.published.yml
+      service: product-api
 
   front:
     extends:
