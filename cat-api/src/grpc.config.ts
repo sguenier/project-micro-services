@@ -6,7 +6,7 @@ import { addReflectionToGrpcConfig } from 'nestjs-grpc-reflection';
 export const grpcConfig = addReflectionToGrpcConfig({
   transport: Transport.GRPC,
   options: {
-    url: '127.0.0.1:6000',
+    url: '127.0.0.1:6001',
     package: CAT_V1ALPHA_PACKAGE_NAME,
     protoPath: join(__dirname, 'proto/cat/v1alpha/cat.proto'),
   },

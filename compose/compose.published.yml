@@ -99,8 +99,8 @@ services:
       - AUTH_API_URL=auth-api:4000
       - ROOT_CA=/certs/rootCA.pem
       - JAEGER_URL=http://tracing:4318/v1/traces
-    # ports:
-    #   - 4004:4000
+    ports:
+      - 4005:4000
     volumes:
       - ../local/certs:/certs
     healthcheck:
